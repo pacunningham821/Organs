@@ -11,31 +11,25 @@ var canvas = d3.select(".BOXES").append("svg")
 
 	
 var DaVal;
+var i = 0
 
 d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All.csv", function(data){
 
-		DaVal = Math.sqrt(parseInt(data['Kidney'])) * 100
+		DaVal = Math.sqrt(parseInt(data.Count))
+		
 		canvas.append("rect")
 		.attr("x", 100)
 		.attr("y", 500 - DaVal)
 		.attr("width", DaVal)
 		.attr("height", DaVal)
-		.attr("fill", d3.rgb(125,171,250))
+		.attr("fill", d3.rgb(data.R,data.G,data.B))
+		.attr("id", data.Organ)
 		.on("mouseover", handleMouseOver)
 		.on("mouseout", handleMouseOut);
 		
-		DaVal2 = Math.sqrt(parseInt(data['Liver'])) * 100
-		canvas.append("rect")
-		.attr("x", 100)
-		.attr("y", 500 - DaVal2)
-		.attr("width", DaVal2)
-		.attr("height", DaVal2)
-		.attr("fill", d3.rgb(212,141,230));
-		
-		
-		
-		
+	i++;	
 	console.log(data);
+	console.log(i);
 	});
 	
 	
