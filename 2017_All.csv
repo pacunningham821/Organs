@@ -1,2 +1,10 @@
-All Organs,Kidney,Liver,Pancreas,Kidney / Pancreas,Heart,Lung,Heart / Lung,Intestine
-"34,770","19,849","8,082",213,789,"3,244","2,449",29,109
+Organ,Count,R,G,B
+All,"34,770",208,240,185
+Kidney,"19,849",125,171,250
+Liver,"8,082",212,141,230
+Pancreas,213,166,159,52
+KidneyAndPancreas,789,223,242,126
+Heart,"3,244",212,120,126
+Lung,"2,449",132,212,120
+HeartAndLung,29,156,182,152
+Intestine,109,230,138,92
