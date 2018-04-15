@@ -12,10 +12,14 @@ var canvas = d3.select(".BOXES").append("svg")
 	
 var DaVal;
 var i = 0
+var H;
+var W;
+var X;
+var Y;
 
 d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All.csv", function(data){
 
-		DaVal = Math.sqrt(parseInt(data.Count))
+		DaVal = Math.sqrt(data.Count)*2.5
 		
 		canvas.append("rect")
 		.attr("x", 100)
@@ -27,6 +31,15 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 		.on("mouseover", handleMouseOver)
 		.on("mouseout", handleMouseOut);
 		
+		canvas.append("text")
+			.attr("x", 115)
+			.attr("y", 515 - DaVal)
+			.attr("fint-family", "Calibri")
+			.attr("font-size", "20px")
+			.attr("fill", "white")
+			.attr("font-weight", 700)
+			.text(data.Organ);
+		
 	i++;	
 	console.log(data);
 	console.log(i);
@@ -35,15 +48,23 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 	
 	function handleMouseOver(d, i) {  // Add interactivity
 
-
-            d3.select(this).attr("height", DaVal + 100);
-			d3.select(this).attr("width", DaVal + 100);
+			H = parseFloat(d3.select(this).attr("height"));
+			W = parseFloat(d3.select(this).attr("width"));
+			X = parseInt(d3.select(this).attr("x"));
+			Y = parseInt(d3.select(this).attr("y"));
+			
+            d3.select(this).attr("height", W + 40);
+			d3.select(this).attr("width", H + 40);
+			d3.select(this).attr("x", X - 20);
+			d3.select(this).attr("y", Y - 20);
 
           }
 
       function handleMouseOut(d, i) {
-            d3.select(this).attr("height", DaVal);
-			d3.select(this).attr("width", DaVal);
+            d3.select(this).attr("height", H);
+			d3.select(this).attr("width", W);
+			d3.select(this).attr("x", X);
+			d3.select(this).attr("y", Y);
 
           }
 	
