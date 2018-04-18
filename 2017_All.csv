@@ -2,9 +2,9 @@ Organ,Count,R,G,B
 All,34770,208,240,185
 Kidney,19849,125,171,250
 Liver,8082,212,141,230
-Pancreas,213,166,159,52
-KidneyAndPancreas,789,223,242,126
 Heart,3244,212,120,126
 Lung,2449,132,212,120
-HeartAndLung,29,156,182,152
+KidneyAndPancreas,789,223,242,126
+Pancreas,213,166,159,52
 Intestine,109,230,138,92
+HeartAndLung,29,156,182,152
