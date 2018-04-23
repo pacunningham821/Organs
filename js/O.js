@@ -41,7 +41,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			.attr("y", 515 - DaVal)
 			.attr("font-family", "Calibri")
 			.attr("font-size", "20px")
-			.attr("fill", "white")
+			.attr("fill", "White")
 			.attr("font-weight", 400)
 			.attr("id", data.Organ + "TXT")
 			.text(data.Organ);
