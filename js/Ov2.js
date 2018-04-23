@@ -1,3 +1,5 @@
+//version 2 added on click
+
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 600 - margin.left - margin.right,
@@ -17,10 +19,12 @@ var W;
 var X;
 var Y;
 var ID;
+var D =[];
 
 d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All.csv", function(data){
 
 		DaVal = Math.sqrt(data.Count)*2.5
+		D[i] = data;
 		
 		canvas.append("rect")
 		.attr("x", 100)
@@ -34,14 +38,15 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 		.attr("rx", 20)
 		.attr("ry", 20)
 		.on("mouseover", handleMouseOver)
-		.on("mouseout", handleMouseOut);
+		.on("mouseout", handleMouseOut)
+		.on("click", handleMouseClick);
 		
 		canvas.append("text")
 			.attr("x", 115)
 			.attr("y", 565 - DaVal)
 			.attr("font-family", "Calibri")
 			.attr("font-size", "20px")
-			.attr("fill", "White")
+			.attr("fill", "white")
 			.attr("font-weight", 400)
 			.attr("id", data.Organ + "TXT")
 			.text(data.Organ);
@@ -91,7 +96,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 
           }
 
-      function handleMouseOut(d, i) {
+    function handleMouseOut(d, i) {
             d3.select(this).attr("height", H)
 			.attr("width", W)
 			.attr("x", X)
@@ -106,4 +111,33 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 
           }
 	
-	
+	function handleMouseClick(d, i) {
+			ID = d3.select(this).attr("id");
+			
+			canvas.append("rect")
+				.attr("height", 500)
+				.attr("width", 500)
+				.attr("x",90)
+				.attr("y", 80)
+				.attr("rx", 20)
+				.attr("ry", 20)
+				.attr("stroke-width", 2)
+				.attr("stroke", d3.rgb(80,80,80))
+				.attr("fill", d3.select("#" + ID).attr("fill"))
+				.on("click", function(){
+					d3.select("#extTXT").remove();
+					d3.select(this).remove();
+					});
+			
+			canvas.append("text")
+				.attr("x", 105)
+				.attr("y", 98)
+				.attr("font-family", "Calibri")
+				.attr("font-size", "20px")
+				.attr("fill", "white")
+				.attr("font-weight", 700)
+				.attr("id", "extTXT")
+				.text(ID);
+		
+				
+			}
