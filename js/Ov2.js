@@ -21,7 +21,7 @@ var Y;
 var ID;
 var D =[];
 
-d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All.csv", function(data){
+d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All_Recep.csv", function(data){
 
 		DaVal = Math.sqrt(data.Count)*2.5
 		D[i] = data;
