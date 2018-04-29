@@ -12,14 +12,18 @@ var canvas = d3.select(".BOXES").append("svg")
 
 
 	
-var DaVal;
-var i = 0
-var H;
-var W;
-var X;
-var Y;
-var ID;
-var D =[];
+var DaVal; // this is length of one side of the sqaure, square root of count
+var i = 0 // index function to count in d3.csv function
+var H; // will store svg height information on mouseover
+var W; // will store svg width information on mouseover
+var X; // will store svg X location information on mouseover
+var Y; // will store svg Y location information on mouseover
+var ID; // will store svg ID information on mouseover and click
+var D =[]; // will store whole csv file array
+var Recep = []; // will be the specific organ array on click event
+
+
+
 
 d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All_Recep.csv", function(data){
 
@@ -56,6 +60,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 	console.log(i);
 	});
 	
+		
 	
 	function handleMouseOver(d, i) {  // Add interactivity
 
@@ -112,8 +117,14 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
           }
 	
 	function handleMouseClick(d, i) {
+			//get ID for clicked object
 			ID = d3.select(this).attr("id");
-			
+			//load cooresponding information from D
+			Recep = D.filter(function( obj ) {
+				return obj.Organ == ID; })[0];
+				
+				
+			// build the new larege rectangel for details on clicked organ
 			canvas.append("rect")
 				.attr("height", 500)
 				.attr("width", 500)
@@ -124,11 +135,10 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("stroke-width", 2)
 				.attr("stroke", d3.rgb(80,80,80))
 				.attr("fill", d3.select("#" + ID).attr("fill"))
-				.on("click", function(){
-					d3.select("#extTXT").remove();
-					d3.select(this).remove();
-					});
-			
+				.attr("id", "R")
+				.on("click", ClickRemove);
+				
+			// add text to main box
 			canvas.append("text")
 				.attr("x", 105)
 				.attr("y", 98)
@@ -139,5 +149,90 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("id", "extTXT")
 				.text(ID);
 		
+			// counter varible for age groups
+			var c;
+			// define age group column name in Recep in below switch
+			var agecol;
+			//age label
+			var agelabel;
+			// store the sum height so far in for loop
+			var h_store = 0;
+			// display value
+			var DaValS;
+			
+
+			//for loop to build 7 age group rectangels for stacked bar (100%)
+			//Switch statement defines the age group for each pass through the for loop
+			for (c = 0; c <= 7; c++) {
+				switch(c){
+					case 0:
+						agecol = 'LessThan1'
+						agelabel = "Less Than 1yo"
+						break;
+					case 1:
+						agecol = '1To5'
+						agelabel = "1-5yo"
+						break;
+					case 2:
+						agecol = '6To10'
+						agelabel = "6-10yo"
+						break;
+					case 3:
+						agecol = '11To17'
+						agelabel = "11-17yo"
+						break;
+					case 4:
+						agecol = '18To34'
+						agelabel = "18-34yo"
+						break;
+					case 5:
+						agecol = '35To49'
+						agelabel = "35-49yo"
+						break;
+					case 6:
+						agecol = '50To64'
+						agelabel = "50-64yo"
+						break;
+					case 7:
+						agecol = '65Plus'
+						agelabel = "65yo and up"
+						break;
+				}// Switch
 				
-			}
+				DaValS = parseInt(Recep[agecol+"p"])*4;
+				
+				canvas.append("rect")
+					.attr("height", DaValS)
+					.attr("width", 55)
+					.attr("x", 105 + 58.75*c)
+					.attr("y", 560 - DaValS - h_store)
+					.attr("stroke-width", 0.75)
+					.attr("stroke", d3.rgb(80,80,80))
+					.attr("fill", d3.rgb(145,145,145))
+					.attr("id", "R"+c)
+					.on("click", ClickRemove);
+					
+					
+				h_store += DaValS; 
+				console.log(h_store);
+				console.log(DaValS);
+				console.log(agecol);
+
+			};// For Loop
+		
+				
+		};// handleMouseClick
+		
+		//function to remove elements when clicking out
+		function ClickRemove(){
+					d3.select("#extTXT").remove();
+					d3.select("#R").remove();
+					d3.select("#R0").remove();
+					d3.select("#R1").remove();
+					d3.select("#R2").remove();
+					d3.select("#R3").remove();
+					d3.select("#R4").remove();
+					d3.select("#R5").remove();
+					d3.select("#R6").remove();
+					d3.select("#R7").remove();
+					};
