@@ -167,7 +167,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				switch(c){
 					case 0:
 						agecol = 'LessThan1'
-						agelabel = "Less Than 1yo"
+						agelabel = "<1yo"
 						break;
 					case 1:
 						agecol = '1To5'
@@ -195,29 +195,49 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 						break;
 					case 7:
 						agecol = '65Plus'
-						agelabel = "65yo and up"
+						agelabel = "65+yo"
 						break;
 				}// Switch
 				
-				DaValS = parseInt(Recep[agecol+"p"])*4;
+				DaValS = parseInt(Recep[agecol+"p"])*6;
 				
 				canvas.append("rect")
 					.attr("height", DaValS)
 					.attr("width", 55)
 					.attr("x", 105 + 58.75*c)
-					.attr("y", 560 - DaValS - h_store)
+					.attr("y", 560 - DaValS)
 					.attr("stroke-width", 0.75)
 					.attr("stroke", d3.rgb(80,80,80))
 					.attr("fill", d3.rgb(145,145,145))
 					.attr("id", "R"+c)
 					.on("click", ClickRemove);
-					
+				
+				canvas.append("text")
+					.attr("x", 105 + 58.75*c)
+					.attr("y", 538 - DaValS)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "17px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "T"+c)
+					.attr("stroke", d3.rgb(70,70,70))
+					.attr("stroke-width", 0.5)
+					.text(agelabel);
+				
+				canvas.append("text")
+					.attr("x", 109 + 58.75*c)
+					.attr("y", 554 - DaValS)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "17px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "T2"+c)
+					.attr("stroke", d3.rgb(70,70,70))
+					.attr("stroke-width", 0.5)
+					.text(parseInt(Recep[agecol]).toLocaleString('en'));
 					
 				h_store += DaValS; 
-				console.log(h_store);
-				console.log(DaValS);
-				console.log(agecol);
-
+				
 			};// For Loop
 		
 				
@@ -235,4 +255,20 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					d3.select("#R5").remove();
 					d3.select("#R6").remove();
 					d3.select("#R7").remove();
+					d3.select("#T0").remove();
+					d3.select("#T1").remove();
+					d3.select("#T2").remove();
+					d3.select("#T3").remove();
+					d3.select("#T4").remove();
+					d3.select("#T5").remove();
+					d3.select("#T6").remove();
+					d3.select("#T7").remove();
+					d3.select("#T20").remove();
+					d3.select("#T21").remove();
+					d3.select("#T22").remove();
+					d3.select("#T23").remove();
+					d3.select("#T24").remove();
+					d3.select("#T25").remove();
+					d3.select("#T26").remove();
+					d3.select("#T27").remove();
 					};
