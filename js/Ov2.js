@@ -148,6 +148,38 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("font-weight", 700)
 				.attr("id", "extTXT")
 				.text(ID);
+				
+			canvas.append("text")
+				.attr("x", 105)
+				.attr("y", 138)
+				.attr("font-family", "Calibri")
+				.attr("font-size", "18px")
+				.attr("fill", "white")
+				.attr("font-weight", 400)
+				.attr("id", "extTXT2")
+				.text("2017 Donations Made: " + parseFloat(Recep['Count']).toLocaleString('en'));
+			
+			canvas.append("text")
+				.attr("x", 105)
+				.attr("y", 156)
+				.attr("font-family", "Calibri")
+				.attr("font-size", "18px")
+				.attr("fill", "white")
+				.attr("font-weight", 400)
+				.attr("id", "extTXT3")
+				.text("2014 Average Wait time (Days): " + Recep['Waiting']);
+			
+			canvas.append("text")
+				.attr("x", 245)
+				.attr("y", 226)
+				.attr("font-family", "Calibri")
+				.attr("font-size", "24px")
+				.attr("fill", "white")
+				.attr("font-weight", 700)
+				.attr("id", "extTXT4")
+				.text("2017 Age of Recipents");
+						
+			
 		
 			// counter varible for age groups
 			var c;
@@ -220,8 +252,6 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.attr("fill", "white")
 					.attr("font-weight", 700)
 					.attr("id", "T"+c)
-					.attr("stroke", d3.rgb(70,70,70))
-					.attr("stroke-width", 0.5)
 					.text(agelabel);
 				
 				canvas.append("text")
@@ -232,8 +262,6 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.attr("fill", "white")
 					.attr("font-weight", 700)
 					.attr("id", "T2"+c)
-					.attr("stroke", d3.rgb(70,70,70))
-					.attr("stroke-width", 0.5)
 					.text(parseInt(Recep[agecol]).toLocaleString('en'));
 					
 				h_store += DaValS; 
@@ -246,6 +274,9 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 		//function to remove elements when clicking out
 		function ClickRemove(){
 					d3.select("#extTXT").remove();
+					d3.select("#extTXT2").remove();
+					d3.select("#extTXT3").remove();
+					d3.select("#extTXT4").remove();
 					d3.select("#R").remove();
 					d3.select("#R0").remove();
 					d3.select("#R1").remove();
