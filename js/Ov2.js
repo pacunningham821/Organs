@@ -56,13 +56,24 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			.attr("id", data.Organ + "TXT")
 			.on("mouseover", handleMouseOver)
 			.on("mouseout", handleMouseOut)
-			.text(data.Organ);
+			.text(LabelMe(data.Organ));
+			//.text(data.Organ);
 		
 	i++;	
 	console.log(data);
 	console.log(i);
 	});
 	
+	function LabelMe(d) {// add spaces where needed to labels
+		var inde = d.indexOf("And");
+		var otpt;
+		if (inde != -1){
+			otpt = d.substr(0,inde) + " and " + d.substr(inde + 3, d.length);
+		} else {
+			otpt = d;
+		}
+		return otpt;
+	}
 		
 	
 	function handleMouseOver(d) {  // Add interactivity
@@ -152,13 +163,13 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			// add text to main box
 			canvas.append("text")
 				.attr("x", 105)
-				.attr("y", 98)
+				.attr("y", 106)
 				.attr("font-family", "Calibri")
-				.attr("font-size", "20px")
+				.attr("font-size", "28px")
 				.attr("fill", "white")
 				.attr("font-weight", 700)
 				.attr("id", "extTXT")
-				.text(ID);
+				.text(LabelMe(ID));
 				
 			canvas.append("text")
 				.attr("x", 105)
@@ -178,11 +189,11 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("fill", "white")
 				.attr("font-weight", 400)
 				.attr("id", "extTXT3")
-				.text("2014 Average Wait time (Days): " + Recep['Waiting']);
+				.text("2014 Average Wait time: " + Recep['Waiting'] + " days");
 			
 			canvas.append("text")
 				.attr("x", 245)
-				.attr("y", 226)
+				.attr("y", 186)
 				.attr("font-family", "Calibri")
 				.attr("font-size", "24px")
 				.attr("fill", "white")
