@@ -19,6 +19,7 @@ var W; // will store svg width information on mouseover
 var X; // will store svg X location information on mouseover
 var Y; // will store svg Y location information on mouseover
 var ID; // will store svg ID information on mouseover and click
+var ID2;
 var D =[]; // will store whole csv file array
 var Recep = []; // will be the specific organ array on click event
 
@@ -53,6 +54,8 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			.attr("fill", "white")
 			.attr("font-weight", 400)
 			.attr("id", data.Organ + "TXT")
+			.on("mouseover", handleMouseOver)
+			.on("mouseout", handleMouseOut)
 			.text(data.Organ);
 		
 	i++;	
@@ -62,15 +65,23 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 	
 		
 	
-	function handleMouseOver(d, i) {  // Add interactivity
+	function handleMouseOver(d) {  // Add interactivity
+	
+			ID = d3.select(this).attr("id");
+			//if statement to figure out if hover over was text or rectangle
+			if (ID.substr(ID.length - 3, 3) == "TXT") {
+				ID2 = "#" + ID.substr(0, ID.length - 3);
+			} else {
+				ID2 = "#" + ID;
+			}
 
-			H = parseFloat(d3.select(this).attr("height"));
-			W = parseFloat(d3.select(this).attr("width"));
-			X = parseInt(d3.select(this).attr("x"));
-			Y = parseInt(d3.select(this).attr("y"));
-			ID = "#" + d3.select(this).attr("id") + "TXT";
+			H = parseFloat(d3.select(ID2).attr("height"));
+			W = parseFloat(d3.select(ID2).attr("width"));
+			X = parseInt(d3.select(ID2).attr("x"));
+			Y = parseInt(d3.select(ID2).attr("y"));
+			ID = "#" + d3.select(ID2).attr("id") + "TXT";
 			
-            d3.select(this).attr("height", W + 40)
+            d3.select(ID2).attr("height", W + 40)
 			.attr("width", H + 40)
 			.attr("x", X - 20)
 			.attr("y", Y - 20)
@@ -102,7 +113,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
           }
 
     function handleMouseOut(d, i) {
-            d3.select(this).attr("height", H)
+            d3.select(ID2).attr("height", H)
 			.attr("width", W)
 			.attr("x", X)
 			.attr("y", Y)
