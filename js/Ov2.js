@@ -56,8 +56,8 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			.attr("id", data.Organ + "TXT")
 			.on("mouseover", handleMouseOver)
 			.on("mouseout", handleMouseOut)
+			.on("click", handleMouseClick)
 			.text(LabelMe(data.Organ));
-			//.text(data.Organ);
 		
 	i++;	
 	console.log(data);
@@ -141,11 +141,48 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 	function handleMouseClick(d, i) {
 			//get ID for clicked object
 			ID = d3.select(this).attr("id");
+			//if statement to figure out if hover over was text or rectangle
+			if (ID.substr(ID.length - 3, 3) == "TXT") {
+				ID = "#" + ID.substr(0, ID.length - 3);
+			} else {
+				ID = "#" + ID;
+			}
 			//load cooresponding information from D
 			Recep = D.filter(function( obj ) {
-				return obj.Organ == ID; })[0];
+				return obj.Organ == ID.substr(1, ID.length); })[0];
 				
-				
+			// build custom SVG shape to be built by path
+			var xk = 195;
+			var yk = 286;
+			var wk = 55;
+			var hk = 70;
+			var outline = [{"x": xk, "y": yk},
+						   {"x": xk+wk, "y": yk},
+						   {"x": xk+wk, "y": yk+hk},
+						   {"x": xk+wk-2.5, "y": yk+hk+2},
+						   {"x": xk+wk-7.5, "y": yk+hk-2},
+						   {"x": xk+wk-12.5, "y": yk+hk+2},
+						   {"x": xk+wk-17.5, "y": yk+hk-2},
+						   {"x": xk+wk-22.5, "y": yk+hk+2},
+						   {"x": xk+wk-27.5, "y": yk+hk-2},
+						   {"x": xk+wk-32.5, "y": yk+hk+2},
+						   {"x": xk+wk-37.5, "y": yk+hk-2},
+						   {"x": xk+wk-42.5, "y": yk+hk+2},
+						   {"x": xk+wk-47.5, "y": yk+hk-2},
+						   {"x": xk+wk-52.5, "y": yk+hk+2},
+						   {"x": xk, "y": yk+hk},
+						   {"x": xk, "y": yk},
+						];
+			var mealine = [{"x": xk - 10, "y": yk},
+						   {"x": xk - 15, "y": yk},
+						   {"x": xk - 15, "y": yk+hk},
+						   {"x": xk - 10, "y": yk+hk}
+						];
+						
+			var line = d3.line()
+						.x(function(d) {return d.x;})
+						.y(function(d) {return d.y;});
+			
 			// build the new larege rectangel for details on clicked organ
 			canvas.append("rect")
 				.attr("height", 500)
@@ -156,9 +193,71 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("ry", 20)
 				.attr("stroke-width", 2)
 				.attr("stroke", d3.rgb(80,80,80))
-				.attr("fill", d3.select("#" + ID).attr("fill"))
+				.attr("fill", d3.select(ID).attr("fill"))
 				.attr("id", "R")
 				.on("click", ClickRemove);
+				
+			// add key for bar graph
+			canvas.append("path")
+					.attr("d", line(outline))
+					.attr("stroke-width", 0.75)
+					.attr("stroke", d3.rgb(80,80,80))
+					.attr("fill", d3.rgb(145,145,145))
+					.attr("id", "RK")
+					.on("click", ClickRemove);
+					
+			canvas.append("path")
+					.attr("d", line(mealine))
+					.attr("stroke-width", 1.25)
+					.attr("stroke", d3.rgb(80,80,80))
+					.attr("fill", "none")
+					.attr("id", "RK2")
+					.on("click", ClickRemove);
+			
+				
+				canvas.append("text")
+					.attr("x", 175)
+					.attr("y", 280)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "15px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "TK0")
+					.on("click", ClickRemove)
+					.text("# of Recipents");
+					
+				canvas.append("text")
+					.attr("x", 175)
+					.attr("y", 264)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "15px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "TK1")
+					.on("click", ClickRemove)
+					.text("Age Group (years)");
+					
+				canvas.append("text")
+					.attr("x", 107)
+					.attr("y", 314)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "15px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "TK2")
+					.on("click", ClickRemove)
+					.text("% of Organ");
+				
+				canvas.append("text")
+					.attr("x", 110)
+					.attr("y", 330)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "15px")
+					.attr("fill", "white")
+					.attr("font-weight", 700)
+					.attr("id", "TK3")
+					.on("click", ClickRemove)
+					.text("Recipents");
 				
 			// add text to main box
 			canvas.append("text")
@@ -169,7 +268,8 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("fill", "white")
 				.attr("font-weight", 700)
 				.attr("id", "extTXT")
-				.text(LabelMe(ID));
+				.on("click", ClickRemove)
+				.text(LabelMe(ID.substr(1, ID.length)));
 				
 			canvas.append("text")
 				.attr("x", 105)
@@ -179,6 +279,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("fill", "white")
 				.attr("font-weight", 400)
 				.attr("id", "extTXT2")
+				.on("click", ClickRemove)
 				.text("2017 Donations Made: " + parseFloat(Recep['Count']).toLocaleString('en'));
 			
 			canvas.append("text")
@@ -189,19 +290,19 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("fill", "white")
 				.attr("font-weight", 400)
 				.attr("id", "extTXT3")
+				.on("click", ClickRemove)
 				.text("2014 Average Wait time: " + Recep['Waiting'] + " days");
 			
 			canvas.append("text")
-				.attr("x", 245)
+				.attr("x", 235)
 				.attr("y", 186)
 				.attr("font-family", "Calibri")
 				.attr("font-size", "24px")
 				.attr("fill", "white")
 				.attr("font-weight", 700)
 				.attr("id", "extTXT4")
-				.text("2017 Age of Recipents");
-						
-			
+				.on("click", ClickRemove)
+				.text("Age of Recipents in 2017");		
 		
 			// counter varible for age groups
 			var c;
@@ -213,6 +314,12 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			var h_store = 0;
 			// display value
 			var DaValS;
+			// this corrects for label length
+			var correction;
+			// this corrects for count length
+			var correction2;
+			// stores the age group recipient count
+			var rec_count;
 			
 
 			//for loop to build 7 age group rectangels for stacked bar (100%)
@@ -221,37 +328,71 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				switch(c){
 					case 0:
 						agecol = 'LessThan1'
-						agelabel = "<1yo"
+						agelabel = "< 1"
+						correction = 11;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 1:
 						agecol = '1To5'
-						agelabel = "1-5yo"
+						agelabel = " 1-5"
+						correction = 11;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 2:
 						agecol = '6To10'
-						agelabel = "6-10yo"
+						agelabel = " 6-10"
+						correction = 7;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 3:
 						agecol = '11To17'
-						agelabel = "11-17yo"
+						agelabel = "11-17"
+						correction = 0;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 4:
 						agecol = '18To34'
-						agelabel = "18-34yo"
+						agelabel = "18-34"
+						correction = 0;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 5:
 						agecol = '35To49'
-						agelabel = "35-49yo"
+						agelabel = "35-49"
+						correction = 0;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 6:
 						agecol = '50To64'
-						agelabel = "50-64yo"
+						agelabel = "50-64"
+						correction = 0;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
 					case 7:
 						agecol = '65Plus'
-						agelabel = "65+yo"
+						agelabel = "65 +"
+						correction = 9;
+						rec_count = parseInt(Recep[agecol]).toLocaleString('en');
 						break;
-				}// Switch
+				}// Switch c
+				
+				switch(rec_count.length){
+					case 1:
+						correction2 = 15;
+						break;
+					case 2:
+						correction2 = 11;
+						break;
+					case 3:
+						correction2 = 7;
+						break;
+					case 5:
+						correction2 = 0;
+						break;
+					case 6:
+						correction2 = -4;
+						break;
+				}// Switch rec_count.length
 				
 				DaValS = parseInt(Recep[agecol+"p"])*6;
 				
@@ -267,7 +408,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.on("click", ClickRemove);
 				
 				canvas.append("text")
-					.attr("x", 105 + 58.75*c)
+					.attr("x", 110 + correction + 58.75*c)
 					.attr("y", 538 - DaValS)
 					.attr("font-family", "Calibri")
 					.attr("font-size", "17px")
@@ -277,14 +418,14 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.text(agelabel);
 				
 				canvas.append("text")
-					.attr("x", 109 + 58.75*c)
+					.attr("x", 111 + correction2 + 58.75*c)
 					.attr("y", 554 - DaValS)
 					.attr("font-family", "Calibri")
 					.attr("font-size", "17px")
 					.attr("fill", "white")
 					.attr("font-weight", 700)
 					.attr("id", "T2"+c)
-					.text(parseInt(Recep[agecol]).toLocaleString('en'));
+					.text(rec_count);
 					
 				h_store += DaValS; 
 				
@@ -295,6 +436,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 		
 		//function to remove elements when clicking out
 		function ClickRemove(){
+					d3.select(ID+"TXT").attr("font-weight", 400);
 					d3.select("#extTXT").remove();
 					d3.select("#extTXT2").remove();
 					d3.select("#extTXT3").remove();
@@ -324,4 +466,10 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					d3.select("#T25").remove();
 					d3.select("#T26").remove();
 					d3.select("#T27").remove();
+					d3.select("#TK0").remove();
+					d3.select("#TK1").remove();
+					d3.select("#RK").remove();
+					d3.select("#RK2").remove();
+					d3.select("#TK2").remove();
+					d3.select("#TK3").remove();
 					};

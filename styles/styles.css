@@ -1,10 +1,11 @@
-h2 {
+h {
   font-size: 60px;
   font-family: Calibri;
-  margin-left: 100px;
+  margin-left: 96px;
   margin-bottom: 0;
   margin-top: 0;
-  color: grey;   
+  color: grey;
+  font-weight: 700;
 }
 p {
 font-size: 14px;
