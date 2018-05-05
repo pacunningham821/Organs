@@ -156,6 +156,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 			var yk = 286;
 			var wk = 55;
 			var hk = 70;
+			var xp = 105 + 8*56 + 5;
 			var outline = [{"x": xk, "y": yk},
 						   {"x": xk+wk, "y": yk},
 						   {"x": xk+wk, "y": yk+hk},
@@ -178,6 +179,11 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 						   {"x": xk - 15, "y": yk+hk},
 						   {"x": xk - 10, "y": yk+hk}
 						];
+			var perline = [{"x": xp, "y": 560},
+						   {"x": xp + 5, "y": 560},
+						   {"x": xp + 5, "y": 560-6*55},
+						   {"x": xp, "y": 560-6*55}
+						];
 						
 			var line = d3.line()
 						.x(function(d) {return d.x;})
@@ -196,6 +202,38 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				.attr("fill", d3.select(ID).attr("fill"))
 				.attr("id", "R")
 				.on("click", ClickRemove);
+			
+			canvas.append("path")
+					.attr("d", line(perline))
+					.attr("stroke-width", 1.25)
+					.attr("stroke", d3.rgb(80,80,80))
+					.attr("fill", "none")
+					.attr("id", "RP1")
+					.on("click", ClickRemove);			
+			
+			canvas.append("text")
+					.attr("x", xp+6)
+					.attr("y", 572)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "14px")
+					.attr("fill", "white")
+					.attr("font-weight", 400)
+					.attr("id", "TP1")
+					.on("click", ClickRemove)
+					.text("0%");
+					
+			canvas.append("text")
+					.attr("x", xp+6)
+					.attr("y", 560-6*55)
+					.attr("font-family", "Calibri")
+					.attr("font-size", "14px")
+					.attr("fill", "white")
+					.attr("font-weight", 400)
+					.attr("id", "TP2")
+					.on("click", ClickRemove)
+					.text("55%");
+			
+			
 				
 			// add key for bar graph
 			canvas.append("path")
@@ -398,8 +436,8 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 				
 				canvas.append("rect")
 					.attr("height", DaValS)
-					.attr("width", 55)
-					.attr("x", 105 + 58.75*c)
+					.attr("width", 53)
+					.attr("x", 105 + 56.75*c)
 					.attr("y", 560 - DaValS)
 					.attr("stroke-width", 0.75)
 					.attr("stroke", d3.rgb(80,80,80))
@@ -408,7 +446,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.on("click", ClickRemove);
 				
 				canvas.append("text")
-					.attr("x", 110 + correction + 58.75*c)
+					.attr("x", 110 + correction + 56.75*c)
 					.attr("y", 538 - DaValS)
 					.attr("font-family", "Calibri")
 					.attr("font-size", "17px")
@@ -418,7 +456,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					.text(agelabel);
 				
 				canvas.append("text")
-					.attr("x", 111 + correction2 + 58.75*c)
+					.attr("x", 111 + correction2 + 56.75*c)
 					.attr("y", 554 - DaValS)
 					.attr("font-family", "Calibri")
 					.attr("font-size", "17px")
@@ -472,4 +510,7 @@ d3.csv("https://raw.githubusercontent.com/pacunningham821/Organs/master/2017_All
 					d3.select("#RK2").remove();
 					d3.select("#TK2").remove();
 					d3.select("#TK3").remove();
+					d3.select("#RP1").remove();
+					d3.select("#TP1").remove();
+					d3.select("#TP2").remove();
 					};
